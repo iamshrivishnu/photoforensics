@@ -1,73 +1,82 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Forensics</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Photo Forensics</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="/css/compiled-4.7.1.min.css?ver=4.7.1" />
-    <!-- File Upload -->
-    <link rel="stylesheet" href="/css/file.upload.css" />
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="/css/custom.styles.css" />
-</head>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <!-- Material Design Bootstrap -->
+        <link rel="stylesheet" href="/css/compiled-4.7.1.min.css?ver=4.7.1" />
+        <!-- File Upload -->
+        <link rel="stylesheet" href="/css/file.upload.css" />
+        <!-- Custom Styles -->
+        <link rel="stylesheet" href="/css/custom.styles.css" />
+    </head>
 
-<body>
-    <div class="container mt-5">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <!-- Card Start -->
-                <div class="card animated jackInTheBox z-depth-5">
-                    <div class="card-body animated rubberBand delay-1s">
-                        <!-- Card Header -->
-                        <div class="form-header blue-gradient">
-                            <h3><i class="far fa-image"></i> Photo Forensics</h3>
+    <body>
+        <div class="container mt-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <!-- Card Start -->
+                    <div class="card animated jackInTheBox z-depth-5">
+                        <div class="card-body animated rubberBand delay-1s">
+                            <!-- Card Header -->
+                            <div class="form-header blue-gradient">
+                                <h3><i class="far fa-image"></i> Photo Forensics</h3>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="md-form">
+                                <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+                                    <div class="file-upload-wrapper">
+                                        <input type="file" name="userPhoto" accept="image/jpeg" id="TheFile" class="file_upload"
+                                            onchange="check_extension()" required />
+                                    </div>
+                                    <div class="form-group d-flex justify-content-center">
+                                        <button class="btn blue-gradient btn-rounded" type="submit" id="submit_button"
+                                            disabled> <i class="fas fa-upload mr-1"></i>
+                                            Upload Image </button>
+                                    </div>
+                                    <div class="form-group" id='details'></div>
+                                </form>
+                            </div>
                         </div>
-                        <!-- Card Body -->
-                        <div class="md-form">
-                            <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
-                                <div class="file-upload-wrapper">
-                                    <input type="file" name="userPhoto" accept="image/*" id="TheFile" class="file_upload"
-                                        required />
-                                </div>
-                                <div class="form-group d-flex justify-content-center">
-                                    <button class="btn blue-gradient btn-rounded" type="submit" name="submit"> <i class="fas fa-upload mr-1"></i>
-                                        Upload Image </button>
-                                </div>
-                                <div class="form-group" id='details'></div>
-                            </form>
-                        </div>
+                        <!-- Card End -->
                     </div>
-                    <!-- Card End -->
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- JavaScripts -->
-    <!-- JQuery -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="/js/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="/js/mdb.min.js"></script>
-    <!-- File Upload JavaScript -->
-    <script type="text/javascript" src="/js/mdb-file-upload.min.js"></script>
+        <!-- JavaScripts -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="/js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="/js/bootstrap.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="/js/mdb.min.js"></script>
+        <!-- File Upload JavaScript -->
+        <script type="text/javascript" src="/js/mdb-file-upload.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.file_upload').file_upload();
-        });
-    </script>
+        <script>
+            $(document).ready(function () {
+                $('.file_upload').file_upload();
+            });
 
-</body>
-
+            function check_extension() {
+                var filename = ($('#TheFile').val()).split(".")
+                if (filename[filename.length - 1] === 'jpeg' || filename[filename.length - 1] === 'jpg') {
+                    $('#submit_button').prop('disabled', false)
+                } else {
+                    alert('Not a valid file format.')
+                    $('#submit_button').prop('disabled', true)
+                }
+            }
+        </script>
+    </body>
 </html>
