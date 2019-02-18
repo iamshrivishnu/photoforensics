@@ -11,13 +11,9 @@ app.use("/images", express.static(__dirname + '/images'));
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        // console.log('destination req:' + req)
-        // console.log('destination file:' + file)
         callback(null, './uploads')
     },
     filename: function (req, file, callback) {
-        // console.log('filename req:' + req)
-        // console.log('filename file:' + file)
         callback(null, 'img' + slno + '.jpg')
     }
 });
@@ -40,17 +36,25 @@ app.get('/', function (req, res) {
 
 app.get('/:image', function (req, res) {
     console.log(req.params.image)
+    console.log(req.params)
     var ExifImage = require('exif').ExifImage;
     try {
         new ExifImage({
             image: "./uploads/" + req.params.image
         }, function (error, exifData) {
             if (error) {
-                res.end()
+                res.end('<script>alert("Metadata couldn\'t be extracted. Please try other tests...");</script>')
                 console.log('Error 1: ' + error.message);
+                console.log('This load...')
             } else {
-                res.json(exifData)
-                console.log(exifData); // Do something with your data!
+                if (exifData === '') {
+                    res.end('<script>alert("Metadata not found. Continue with other tests...");</script>')
+                } else {
+                    var stringify = require('json-stringify')
+                    res.write(stringify(exifData, null, 3))
+                    res.end()
+                }
+                console.log(exifData) // Do something with your data!
             }
         });
     } catch (error) {
@@ -61,6 +65,7 @@ app.get('/:image', function (req, res) {
 app.post('/upload', function (req, res) {
     slno = 0
     loadPage()
+    console.log('Uploading')
     upload(req, res, function (err) {
         if (err) {
             return res.end("Error uploading file.")
