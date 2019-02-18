@@ -5,10 +5,12 @@
   "dependencies": {
     "ajv": "^6.9.1",
     "bootstrap": "^4.3.0",
+    "ejs": "^2.6.1",
     "exif": "^0.6.0",
     "express": "^4.16.4",
     "formidable": "^1.2.1",
     "jquery": "^3.3.1",
+    "json-stringify": "^1.0.0",
     "multer": "^1.4.1",
     "popper.js": "^1.14.7",
     "webpack": "^4.29.3",

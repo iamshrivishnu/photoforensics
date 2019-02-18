@@ -7,6 +7,7 @@ let slno = 0
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/images", express.static(__dirname + '/images'));
+app.set('view engine', 'ejs');
 
 
 var storage = multer.diskStorage({
@@ -30,6 +31,63 @@ function loadPage() {
     }
 }
 
+function processJSON(jsonData) {
+    var processingSoftware;
+    var software;
+    var result;
+
+    if (jsonData.image.ProcessingSoftware !== null) {
+        processingSoftware = jsonData.image.ProcessingSoftware;
+    }
+    if (jsonData.image.Software !== null) {
+        software = jsonData.image.Software;
+    }
+
+    var editingSoftwares = [
+        'Adobe',
+        'Windows',
+        'Gimp',
+        'Corel',
+        'Pixlr',
+        'Skylum Luminar',
+        'Capture One',
+        'On1 Photo RAW',
+        'ACDSee Photo Studio Ultimate',
+        'Canva',
+        'PicMonkey',
+        'Snappa',
+        'PortraitPro',
+        'Fotor',
+        'Inkscape',
+        'DxO Optics Pro 10',
+        'Serif Affinity Photo',
+        'Aviary',
+        'Bonfire Photo Editor',
+        'Cupslice',
+        'LightX',
+        'PhotoDirector',
+        'Photo Effects Pro',
+        'Photo Lab',
+        'Photo Mate',
+        'PicsArt',
+        'Snapseed',
+        'TouchRetouch',
+        'Vimage'
+    ]
+
+    if (processingSoftware !== undefined || editingSoftwares.includes(software)) {
+        // The image might have been modified
+        result = "This image was modified by: " + software;
+    } else {
+        // The image is not modified
+        result = "The image was not modified";
+    }
+
+    console.log("Processing Software: " + processingSoftware, "\nSoftware: ", software, "\nResult: ", result);
+    return {"result": result};
+
+}
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/index.html")
 });
@@ -51,10 +109,13 @@ app.get('/:image', function (req, res) {
                     res.end('<script>alert("Metadata not found. Continue with other tests...");</script>')
                 } else {
                     var stringify = require('json-stringify')
-                    res.write(stringify(exifData, null, 3))
+                    // res.write(stringify(exifData, null, 3))
+                    // Processing of the JSON data.
+                    //res.write(processJSON(exifData));
+                    res.render("result", processJSON(exifData));
                     res.end()
                 }
-                console.log(exifData) // Do something with your data!
+                console.log("Extracted Metadata in json format: \n" + exifData) // Do something with your data!
             }
         });
     } catch (error) {
