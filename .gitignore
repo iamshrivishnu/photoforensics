@@ -1,2 +1,5 @@
 node_modules/
 uploads/
+*.log
+uploads/imagelist.txt
+uploads/imagelist.txt

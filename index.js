@@ -43,6 +43,7 @@ function processJSON(jsonData) {
         software = jsonData.image.Software;
     }
 
+    // TODO: add pattern matching.
     var editingSoftwares = [
         'Adobe',
         'Windows',
@@ -113,6 +114,34 @@ app.get('/:image', function (req, res) {
                     // Processing of the JSON data.
                     //res.write(processJSON(exifData));
                     res.render("result", processJSON(exifData));
+                    res.end()
+                }
+                console.log("Extracted Metadata in json format: \n" + exifData) // Do something with your data!
+            }
+        });
+    } catch (error) {
+        console.log('Error 2: ' + error.message);
+    }
+});
+
+app.get('/test/:image', function (req, res) {
+    console.log(req.params.image)
+    console.log(req.params)
+    var ExifImage = require('exif').ExifImage;
+    try {
+        new ExifImage({
+            image: "./uploads/" + req.params.image
+        }, function (error, exifData) {
+            if (error) {
+                res.end('<script>alert("Metadata couldn\'t be extracted. Please try other tests...");</script>')
+                console.log('Error 1: ' + error.message);
+                console.log('This load...')
+            } else {
+                if (exifData === '') {
+                    res.end('<script>alert("Metadata not found. Continue with other tests...");</script>')
+                } else {
+                    var stringify = require('json-stringify')
+                    res.write(stringify(exifData, null, 3))
                     res.end()
                 }
                 console.log("Extracted Metadata in json format: \n" + exifData) // Do something with your data!
