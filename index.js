@@ -31,61 +31,93 @@ function loadPage() {
     }
 }
 
-function processJSON(jsonData) {
-    var processingSoftware;
-    var software;
-    var result;
-
-    if (jsonData.image.ProcessingSoftware !== null) {
-        processingSoftware = jsonData.image.ProcessingSoftware;
-    }
-    if (jsonData.image.Software !== null) {
-        software = jsonData.image.Software;
-    }
-
-    // TODO: add pattern matching.
+function checkForSoftware(software) {
     var editingSoftwares = [
         'Adobe',
         'Windows',
         'Gimp',
         'Corel',
         'Pixlr',
-        'Skylum Luminar',
-        'Capture One',
-        'On1 Photo RAW',
-        'ACDSee Photo Studio Ultimate',
+        'Skylum',
+        'Capture',
+        'On1',
+        'ACDSee',
         'Canva',
         'PicMonkey',
         'Snappa',
         'PortraitPro',
         'Fotor',
         'Inkscape',
-        'DxO Optics Pro 10',
-        'Serif Affinity Photo',
+        'DxO',
+        'Serif',
         'Aviary',
-        'Bonfire Photo Editor',
+        'Bonfire',
         'Cupslice',
         'LightX',
         'PhotoDirector',
-        'Photo Effects Pro',
-        'Photo Lab',
-        'Photo Mate',
+        'Effects Pro',
+        'Lab',
+        'Mate',
         'PicsArt',
         'Snapseed',
         'TouchRetouch',
-        'Vimage'
-    ]
+        'Vimage',
+        'Affinity',
+        'Photo'
+    ];
 
-    if (processingSoftware !== undefined || editingSoftwares.includes(software)) {
+    var softwares = software.split(" ");
+    //console.log("Software:  ", software);
+    for (let i = 0; i < softwares.length; i++) { // Get all the words in the processing softwares
+        for (let j = 0; j < editingSoftwares.length; j++) {
+            if (editingSoftwares[j].toLowerCase() == softwares[i].toLowerCase()) { // Compare each and evey word of processing software with existing list of editing softwares
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function processJSON(jsonData) {
+    var processingSoftware;
+    var software;
+    var result;
+    var isSoftware = false;
+    var isProcessingSoftware = false;
+console.log("Processing SOftware: ", jsonData.image.ProcessingSoftware);
+console.log("SOftware: ", jsonData.image.Software)
+    if (jsonData.image.ProcessingSoftware !== null && jsonData.image.ProcessingSoftware !== undefined) {
+        processingSoftware = jsonData.image.ProcessingSoftware;
+        isProcessingSoftware = checkForSoftware(processingSoftware);
+
+        console.log("Processing Software: ", processingSoftware);
+    }
+    if (jsonData.image.Software !== null) {
+        software = jsonData.image.Software;
+        isSoftware = checkForSoftware(software);
+
+        console.log("Software: ", software);
+    }
+
+    if (processingSoftware !== undefined || processingSoftware !== null || software !== undefined || software !== null) {
+        console.log("inside result");
+        console.log("isSoftware: ", isSoftware)
+        console.log("isProcessingSOftware: ", isProcessingSoftware)
         // The image might have been modified
-        result = "This image was modified by: " + software;
+        if (isProcessingSoftware) {
+            result = "This image was modified by: " + processingSoftware;
+        } else if (isSoftware) {
+            result = "This image was modified by: " + software;
+        } else {
+            result = "This image seems to be not modified";
+        }
     } else {
         // The image is not modified
         result = "The image was not modified";
     }
 
     console.log("Processing Software: " + processingSoftware, "\nSoftware: ", software, "\nResult: ", result);
-    return {"result": result};
+    return { "result": result };
 
 }
 
