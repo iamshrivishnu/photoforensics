@@ -14,36 +14,7 @@
     <!-- Extra details for Live View on GitHub Pages -->
     <!-- Canonical SEO -->
     <link rel="canonical" href="https://www.creative-tim.com/product/material-kit-pro" />
-    <!--  Social tags      -->
-    <meta name="keywords"
-        content="bootstrap 4, bootstrap 4 uit kit, bootstrap 4 kit, material, material kit, creative tim, html kit, html css template, web template, bootstrap, bootstrap 4, css3 template, frontend, responsive bootstrap template, bootstrap ui kit, responsive ui kit, premium bootstrap 4 ui kit, premium template, bootstrap 4 template">
-    <meta name="description"
-        content="Start Your Development With A Badass Bootstrap 4 UI Kit inspired by Material Design">
-    <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="Material Kit Pro by Creative Tim">
-    <meta itemprop="description"
-        content="Start Your Development With A Badass Bootstrap 4 UI Kit inspired by Material Design">
-    <meta itemprop="image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/46/original/opt_mkp_thumbnail.jpg">
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="product">
-    <meta name="twitter:site" content="@creativetim">
-    <meta name="twitter:title" content="Material Kit Pro by Creative Tim">
-    <meta name="twitter:description"
-        content="Start Your Development With A Badass Bootstrap 4 UI Kit inspired by Material Design">
-    <meta name="twitter:creator" content="@creativetim">
-    <meta name="twitter:image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/46/original/opt_mkp_thumbnail.jpg">
-    <!-- Open Graph data -->
-    <meta property="fb:app_id" content="655968634437471">
-    <meta property="og:title" content="Material Kit Pro by Creative Tim" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://demos.creative-tim.com/material-kit-pro/presentation.html" />
-    <meta property="og:image"
-        content="https://s3.amazonaws.com/creativetim_bucket/products/46/original/opt_mkp_thumbnail.jpg" />
-    <meta property="og:description"
-        content="Start Your Development With A Badass Bootstrap 4 UI Kit inspired by Material Design" />
-    <meta property="og:site_name" content="Creative Tim" />
+
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -109,8 +80,7 @@
             height: 75vmin;
             width: 75vmin;
             position: absolute;
-            bottom: -10vmin;
-            right: -3vmin;
+            left: 40%;
         }
 
         .waves img {
@@ -299,6 +269,25 @@
             background-position: center;
         }
     </style>
+    <style>
+        h1 {
+            animation: move 4s linear infinite;
+            background-image: linear-gradient(to right, #77f, #33d0ff, #25ffbb, #33d0ff, #77f);
+            background-size: 100% auto;
+            font: 700 70px/1 Helvetica;
+            letter-spacing: 1px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 10;
+
+        }
+
+        @keyframes move {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -308,15 +297,15 @@
     <script>
         // var getTest = "machineLearning:"+document.getElementById('img').innerHTML; //var test is now assigned to getTest which will only work on browsers
         var getTest = "/machineLearning/" + document.getElementById('img').innerHTML;
-            //var test is now assigned to getTest which will only work on browsers
-            var img = document.getElementById('img').innerHTML;
+        //var test is now assigned to getTest which will only work on browsers
+        var img = document.getElementById('img').innerHTML;
     </script>
 
 
     <div class="page-header" data-parallax="true">
-        <div class="container">
+        <div class="container" id='loadingPanelToShow'>
             <div class="row">
-                <div class="col-md-8 ml-auto mr-auto" id='loadingPanelToShow'>
+                <div class="col-md-8 ml-auto mr-auto">
 
                     <div class="card card-blog" id="displayCard">
 
@@ -347,12 +336,6 @@
                                     </button>
                                 </div>
                                 <div class="col-6 col-md-4" style="padding-right:5%">
-                                    <!-- <script>
-                                        document.write(
-                                            "<button class='btn btn-success btn-round'><a href='" + getTest +
-                                            "'><i class='material-icons'>favorite</i> Analyze Using Machine Learning</a></button>"
-                                        )
-                                    </script> -->
                                     <button class="btn btn-success btn-round" onclick="performMachineLearning()">
                                         <i class="material-icons">favorite</i> Analyze Using Machine Learning
                                     </button>
@@ -378,6 +361,10 @@
                     <div class="modal-body">
                         <h4>
                             <pre><%= metadata%></pre>
+
+
+
+
                         </h4>
                     </div>
                     <div class="modal-footer text-center">
@@ -389,12 +376,18 @@
         <!-- end metadata modal -->
 
 
+
+
+
         <script>
             function performMachineLearning() {
                 document.getElementById('displayCard').style.visibility = 'collapse';
                 //document.getElementById('loadingPanelToShow').innerHTML =  "<div class='card' style='width:800px;height:500px;><div class='card-body'><div class='waves rotate' style='width:300px;height:300px;'><div class='wave-3'></div><div class='wave-2'></div><div class='wave-1'></div><img src='/uploads/"+img+"'></div></div></div></div>";
-                
-                document.getElementById('loadingPanelToShow').innerHTML =  "<div class='waves rotate' style='width:300px;height:300px;'><div class='wave-3'></div><div class='wave-2'></div><div class='wave-1'></div><img src='/uploads/"+img+"'></div>";
+
+                document.getElementById('loadingPanelToShow').innerHTML =
+                    "<div class='row align-items-center'> <div class='waves rotate' style='width:300px;height:300px;'><div class='wave-3'></div><div class='wave-2'></div><div class='wave-1'></div><img src='/uploads/" +
+                    img +
+                    "'></div></div><div class='row '><h1 style='margin-top:25%'>Performing Machine Learning</h1></div>";
                 window.location.href = getTest;
             }
         </script>
