@@ -10,6 +10,7 @@ app.use("/js", express.static(__dirname + '/js'));
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/assets", express.static(__dirname + '/assets'));
+app.use("/python", express.static(__dirname + '/python'));
 app.set('view engine', 'ejs');
 
 
@@ -189,22 +190,24 @@ app.get('/machineLearning/:image', function (req, res) {
 
     // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will 
     // so, first name = Mike and last name = Will 
-    var process = spawn('python', ["./python/hello.py", req.params.image]);
+    var process = spawn('python3', ["./python/machinelearning.py", req.params.image]);
 
     // Takes stdout data from script which executed 
     // with arguments and send this data to res object
     let statusOfImage = ""
-    let output = "";
+    var output = "";
     let accuracy = "";
-
-
-    
-    
-
     process.stdout.on('data', function (data) {
-        //res.send(data.toString()); 
-        output = data.toString();
-        statusOfImage = "FAKE";
+        // console.log(data.toString()); 
+        fs.readFile("./python/output.txt", "utf-8", (err, data) => {
+            if (err) { console.log(err) }
+            output = data;
+            if(output == "Orginal"){
+                statusOfImage = "REAL";
+            }else{
+                statusOfImage = "FAKE";
+            }
+            
         accuracy = "95%";
         res.render("resultMachineLearning", {
             "result": output,
@@ -212,6 +215,7 @@ app.get('/machineLearning/:image', function (req, res) {
             "statusOfImage": statusOfImage,
             "accuracy": accuracy
         });
+        })
     })
 
 });
