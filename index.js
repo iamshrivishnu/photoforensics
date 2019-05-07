@@ -197,6 +197,8 @@ app.get('/machineLearning/:image', function (req, res) {
     let output = "";
     let accuracy = "";
 
+
+    
     
 
     process.stdout.on('data', function (data) {
