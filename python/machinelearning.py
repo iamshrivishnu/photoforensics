@@ -8,6 +8,8 @@ import tflearn
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
+
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.logging.set_verbosity(tf.logging.ERROR)
 IMG_SIZE = 256
@@ -27,7 +29,7 @@ model = tflearn.DNN(convnet, tensorboard_dir='log')
 if os.path.exists('./{}.meta'.format(MODEL_NAME)):
     model.load(MODEL_NAME, weights_only=False)
 
-path = os.path.join('../upload',sys.argv[1])
+path = os.path.join('../uploads/',sys.argv[1])
 img = cv2.imread(path,cv2.IMREAD_GRAYSCALE)
 img = cv2.resize(img, (IMG_SIZE,IMG_SIZE))
 data = np.array(img).reshape(IMG_SIZE,IMG_SIZE,1)

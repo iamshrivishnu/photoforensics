@@ -190,7 +190,7 @@ app.get('/machineLearning/:image', function (req, res) {
 
     // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will 
     // so, first name = Mike and last name = Will 
-    var process = spawn('python3', ["./python/machinelearning.py", req.params.image]);
+    var process = spawn('python', ["./python/machinelearning.py", req.params.image]);
 
     // Takes stdout data from script which executed 
     // with arguments and send this data to res object
