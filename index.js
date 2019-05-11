@@ -39,6 +39,14 @@ app.get('/meta/:image', function (req, res) {
             image: "./uploads/" + req.params.image
         }, function (error, exifData) {
             if (error) {
+                res.render("result", {
+                    "result": "Metadata couldn\'t be extracted. Please try other tests...",
+                    "image": "../uploads/" + req.params.image,
+                    "metadata": "Metadata couldn\'t be extracted.",
+                    "statusOfImage": "UNKNOWN",
+                    "img": req.params.image
+                });
+
                 res.end('<script>alert("Metadata couldn\'t be extracted. Please try other tests...");</script>')
                 console.log('Error 1: ' + error.message);
                 console.log('This load...')
