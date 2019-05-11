@@ -46,10 +46,6 @@ app.get('/meta/:image', function (req, res) {
                     "statusOfImage": "UNKNOWN",
                     "img": req.params.image
                 });
-
-                res.end('<script>alert("Metadata couldn\'t be extracted. Please try other tests...");</script>')
-                console.log('Error 1: ' + error.message);
-                console.log('This load...')
             } else {
                 if (exifData === '') {
                     res.end('<script>alert("Metadata not found. Continue with other tests...");</script>')
@@ -60,7 +56,7 @@ app.get('/meta/:image', function (req, res) {
             }
         });
     } catch (error) {
-        console.log('Error 2: ' + error.message);
+        console.log('Un known Error: ' + error.message);
     }
 });
 
