@@ -24,7 +24,15 @@
     <link href="../assets/demo/demo.css" rel="stylesheet" />
     <link href="../assets/demo/vertical-nav.css" rel="stylesheet" />
 
-    <script src="../assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
+    </script>
+
+
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/css/perfect-scrollbar.min.css" />
 
 
     <style>
@@ -33,7 +41,17 @@
         }
     </style>
 
+
+
+
+
     <style>
+        #page-header{
+            padding: 5%
+        }
+
+        
+
         .stamp {
             height: 100px;
             width: 100px;
@@ -308,7 +326,7 @@
     </script>
 
 
-    <div class="page-header" data-parallax="true">
+    <div id="page-header" class="page-header" data-parallax="true">
         <div class="container" id='loadingPanelToShow'>
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto">
@@ -320,7 +338,7 @@
                                 <img class="img" src=<%= image%>>
                             </a>
                         </div>
-                        <img class="stamp" src="../images/fake-stamp.png" id="stamp"
+                        <img class="stamp" src="../assets/images/fake-stamp.png" id="stamp"
                             style="object-fit:fill;height: 200px;width: 250px;  display: inline-block;">
 
                         <div class="card-body ">
@@ -369,13 +387,11 @@
 
                         <script>
                             let data = document.getElementById('data').innerHTML;
-                            
+
                             var s = $('<textarea />').html(data).text();
 
                             console.log(s);
                             document.write(s);
-
-                          
                         </script>
                         <!-- <h6 id="data" style="visibility:hidden"></h6>
                          <script>
@@ -434,7 +450,6 @@
         </script>
 
         <!--   Core JS Files   -->
-        <script src="../assets/js/core/jquery.min.js" type="text/javascript"></script>
         <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
         <script src="../assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
         <script src="../assets/js/plugins/moment.min.js"></script>
@@ -469,6 +484,8 @@
 
 
 
+
+
         <script src="../assets/bg/three.r92.min.js"></script>
         <script src="../assets/bg/vanta.birds.min.js"></script>
         <script>
@@ -477,6 +494,15 @@
             })
         </script>
 
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#page-header').perfectScrollbar();
+            });
+        </script>
+
+
         <script>
             if (document.getElementById("statusOfImage").innerHTML == "FAKE") {
                 document.getElementById("statusOfImage").className = "card-category text-danger";
@@ -484,7 +510,7 @@
             } else if (document.getElementById("statusOfImage").innerHTML == "REAL") {
                 document.getElementById("statusOfImage").className = "card-category text-success";
                 document.getElementById("stamp").src = "../assets/images/real-stamp.png";
-            }else {
+            } else {
                 document.getElementById("statusOfImage").className = "card-category text-info";
                 document.getElementById("stamp").src = "../assets/images/unknown-stamp.png";
             }
