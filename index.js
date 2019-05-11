@@ -4,10 +4,7 @@ var app = express();
 let fs = require("fs")
 let slno = 0
 
-app.use("/css", express.static(__dirname + '/css'));
-app.use("/font", express.static(__dirname + '/font'));
-app.use("/js", express.static(__dirname + '/js'));
-app.use("/images", express.static(__dirname + '/images'));
+
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/assets", express.static(__dirname + '/assets'));
 app.use("/python", express.static(__dirname + '/python'));
