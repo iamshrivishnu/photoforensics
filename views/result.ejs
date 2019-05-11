@@ -481,9 +481,12 @@
             if (document.getElementById("statusOfImage").innerHTML == "FAKE") {
                 document.getElementById("statusOfImage").className = "card-category text-danger";
                 document.getElementById("stamp").src = "../assets/images/fake-stamp.png";
-            } else {
+            } else if (document.getElementById("statusOfImage").innerHTML == "REAL") {
                 document.getElementById("statusOfImage").className = "card-category text-success";
                 document.getElementById("stamp").src = "../assets/images/real-stamp.png";
+            }else {
+                document.getElementById("statusOfImage").className = "card-category text-info";
+                document.getElementById("stamp").src = "../assets/images/unknown-stamp.png";
             }
         </script>
 </body>
