@@ -301,6 +301,10 @@
         var getTest = "/machineLearning/" + document.getElementById('img').innerHTML;
         //var test is now assigned to getTest which will only work on browsers
         var img = document.getElementById('img').innerHTML;
+
+
+
+        // document.getElementById('metadata_body').innerHTML ="djfgfh";
     </script>
 
 
@@ -360,14 +364,49 @@
                             <i class="material-icons">clear</i>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <h4>
-                            <pre><%= metadata%></pre>
+                    <div class="modal-body" id="metadata_body">
+                        <div id="data" style='display:none'><%= metadata%></div>
 
+                        <script>
+                            let data = document.getElementById('data').innerHTML;
+                            
+                            var s = $('<textarea />').html(data).text();
 
+                            console.log(s);
+                            document.write(s);
 
+                          
+                        </script>
+                        <!-- <h6 id="data" style="visibility:hidden"></h6>
+                         <script>
+                            var jsonData = JSON.parse(document.getElementById('data').innerHTML);
+                                console.log("AA",JSON.parse(jsonData),JSON.stringify(jsonData));
 
-                        </h4>
+                            var table_body =
+                                '<table border="1" id="example"><thead><tr><th>Cars</th><th>Models</th></tr></thead><tbody>';
+                            for (x in jsonData) {
+                                var obj = jsonData[x];
+
+                                for (y in obj) {
+                                    table_body += '<tr>';
+                                    table_body += '<td>';
+                                    table_body += x;
+                                    table_body += '</td>';
+
+                                    table_body += '<td>';
+                                    
+                                    var value = obj[y];
+
+                                    table_body += value;
+                                    table_body += '</td>';
+
+                                    table_body += '</tr>';
+                                }
+                            }
+                            table_body += '</tbody></table>';
+                            document.write(table_body); 
+
+                        </script>-->
                     </div>
                     <div class="modal-footer text-center">
                         <button type="button" class="btn btn-info btn-round" data-dismiss="modal">Sounds good!</button>

@@ -27,14 +27,6 @@ var upload = multer({
     storage: storage
 }).single('userPhoto');
 
-function loadPage() {
-    let filename = "./uploads/imagelist.txt";
-    if (fs.existsSync(filename)) {
-        let data = fs.readFileSync(filename, "utf8").split("\n")
-        slno = data.length - 1;
-    }
-}
-
 function checkForSoftware(software) {
     var editingSoftwares = [
         'Adobe',
@@ -89,13 +81,9 @@ function processJSON(jsonData, image) {
     var isSoftware = false;
     var isProcessingSoftware = false;
     let statusOfImage = "FAKE";
-    console.log("Processing SOftware: ", jsonData.image.ProcessingSoftware);
-    console.log("SOftware: ", jsonData.image.Software)
     if (jsonData.image.ProcessingSoftware !== null && jsonData.image.ProcessingSoftware !== undefined) {
         processingSoftware = jsonData.image.ProcessingSoftware;
         isProcessingSoftware = checkForSoftware(processingSoftware);
-
-        console.log("Processing Software: ", processingSoftware);
     }
     if (jsonData.image.Software !== null) {
         software = jsonData.image.Software;
@@ -105,10 +93,7 @@ function processJSON(jsonData, image) {
     }
 
     if (processingSoftware !== undefined || processingSoftware !== null || software !== undefined || software !== null) {
-        console.log("inside result");
-        console.log("isSoftware: ", isSoftware)
-        console.log("isProcessingSOftware: ", isProcessingSoftware)
-        // The image might have been modified
+
         if (isProcessingSoftware) {
             result = "This image was modified by: " + processingSoftware;
             statusOfImage = "FAKE";
@@ -120,15 +105,33 @@ function processJSON(jsonData, image) {
             statusOfImage = "REAL";
         }
     } else {
-        // The image is not modified
         result = "The image was not modified";
     }
 
-    console.log("Processing Software: " + processingSoftware, "\nSoftware: ", software, "\nResult: ", result);
+    var table_body = '<table class="table" style="display: block;overflow: auto;"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>';
+    for (x in jsonData) {
+        var obj = jsonData[x];
+
+        for (y in obj) {
+            table_body += '<tr>';
+            table_body += '<td>';
+            table_body += y;
+            table_body += '</td>';
+
+            table_body += '<td>';
+            var value = obj[y];
+            table_body += value;
+            table_body += '</td>';
+
+            table_body += '</tr>';
+        }
+    }
+    table_body += '</tbody></table>';
+
     return {
         "result": result,
         "image": "../uploads/" + image,
-        "metadata": JSON.stringify(jsonData, null, "\t"),
+        "metadata": table_body,
         "statusOfImage": statusOfImage,
         "img": image
     };
@@ -173,48 +176,39 @@ app.get('/meta/:image', function (req, res) {
 });
 
 
-// app.get('/', function (req, res) {
-//     res.sendFile(__dirname + "/index.html")
-// });
+
 
 app.get('/machineLearning/:image', function (req, res) {
-    // Use child_process.spawn method from  
-    // child_process module and assign it 
-    // to variable spawn 
+
     var spawn = require("child_process").spawn;
 
-    // Parameters passed in spawn - 
-    // 1. type_of_script 
-    // 2. list containing Path of the script 
-    //    and arguments for the script  
 
-    // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will 
-    // so, first name = Mike and last name = Will 
     var process = spawn('python', ["./python/machinelearning.py", req.params.image]);
 
-    // Takes stdout data from script which executed 
-    // with arguments and send this data to res object
+
     let statusOfImage = ""
     var output = "";
     let accuracy = "";
+
     process.stdout.on('data', function (data) {
-        // console.log(data.toString()); 
         fs.readFile("./python/output.txt", "utf-8", (err, data) => {
-            if (err) { console.log(err) }
+            if (err) {
+                console.log(err)
+            }
             output = data;
-            if(output == "Orginal"){
+            if (output == "Orginal") {
                 statusOfImage = "REAL";
-            }else{
+            } else {
                 statusOfImage = "FAKE";
             }
-            
-        accuracy = "95%";
-        res.render("resultMachineLearning", {
-            "result": output,
-            "image": "/uploads/" + req.params.image,
-            "statusOfImage": statusOfImage,
-            "accuracy": accuracy
-        });
+
+            accuracy = "95%";
+            res.render("resultMachineLearning", {
+                "result": output,
+                "image": "/uploads/" + req.params.image,
+                "statusOfImage": statusOfImage,
+                "accuracy": accuracy
+            });
         })
     })
 
@@ -222,19 +216,10 @@ app.get('/machineLearning/:image', function (req, res) {
 
 app.post('/upload', function (req, res) {
     slno = 0
-    loadPage()
-    console.log('Uploading')
     upload(req, res, function (err) {
         if (err) {
             return res.end("Error uploading file.")
         }
-        fs.appendFile(
-            "./uploads/imagelist.txt",
-            "img" + slno + ".jpg" + "\n",
-            function (err) {
-                if (err) throw err;
-            }
-        );
         res.redirect('/meta/' + "img" + slno + ".jpg")
     });
 });
