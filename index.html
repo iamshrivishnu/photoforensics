@@ -25,7 +25,21 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            $('.file_upload').file_upload();
+        });
 
+        function check_extension() {
+            var filename = ($('#TheFile').val()).split(".")
+            if (filename[filename.length - 1] === 'jpeg' || filename[filename.length - 1] === 'jpg') {
+                $('#submit_button').prop('disabled', false)
+            } else {
+                alert('Not a valid file format.')
+                $('#submit_button').prop('disabled', true)
+            }
+        }
+    </script>
 </head>
 
 <body id='c'>
@@ -74,21 +88,7 @@
     <!-- File Upload JavaScript -->
     <script type="text/javascript" src="/assets/mdb/js/mdb-file-upload.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.file_upload').file_upload();
-        });
 
-        function check_extension() {
-            var filename = ($('#TheFile').val()).split(".")
-            if (filename[filename.length - 1] === 'jpeg' || filename[filename.length - 1] === 'jpg') {
-                $('#submit_button').prop('disabled', false)
-            } else {
-                alert('Not a valid file format.')
-                $('#submit_button').prop('disabled', true)
-            }
-        }
-    </script>
 
     <script src="/assets/bg/three.r92.min.js"></script>
     <script src="/assets/bg/vanta.rings.min.js"></script>
