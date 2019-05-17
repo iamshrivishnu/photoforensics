@@ -84,7 +84,9 @@ jQuery(function ($) {
         });
 
     $(document).ready(function () {
-        sourceImg.src = document.getElementById('source_image').src;
-        analyzeImage(sourceImg);
-    });
+        $("#ELA").click(function () {
+            sourceImg.src = document.getElementById('source_image').src;
+            // analyzeImage(sourceImg);
+        });
+    })
 });

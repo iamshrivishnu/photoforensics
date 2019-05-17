@@ -15,7 +15,8 @@
 
 
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-kit.min.css?v=2.1.1" rel="stylesheet" />
@@ -26,7 +27,8 @@
     <script type="text/javascript" src="../assets/js/core/jquery.min.js"></script>
     <script type="text/javascript" src="../assets/js/ELA.js"></script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
     </script>
 
     <link rel="stylesheet"
@@ -36,6 +38,7 @@
     <style>
         body {
             overflow: hidden;
+            position: relative;
         }
     </style>
 
@@ -44,19 +47,19 @@
 
 
     <style>
-        
         #page-header {
             padding: 5%
         }
 
         #metadata_body {
             height: 60vh;
+            width:  100vh;
         }
 
-        /* #ela_body {
-            width: 100vh;
-            height: 100vh;
-        } */
+        #ela_body {
+            height: 60vh;
+        }
+
 
         .stamp {
             height: 100px;
@@ -317,8 +320,8 @@
 </head>
 
 <body>
-            <div style="width:100%;height:100%" id="bg"></div>
-            <div id='img' style='visibility: collapse;width:0%;height:0%'><%= img%> </div>
+    <div style="width:100%;height:100%;position: absolute;" id="bg"></div>
+    <div id='img' style='visibility: collapse;width:0%;height:0%'><%= img%> </div>
 
     <script>
         // var getTest = "machineLearning:"+document.getElementById('img').innerHTML; //var test is now assigned to getTest which will only work on browsers
@@ -337,11 +340,11 @@
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto">
 
-                    <div class="card card-blog">
+                    <div class="card card-blog" id="displayCard">
 
                         <div class="card-header card-header-image">
                             <a href="#pablo">
-                                <img class="img" id="source_image" src=<%= image%> >
+                                <img class="img" id="source_image" src=<%= image%>>
                             </a>
                         </div>
                         <img class="stamp" src="../assets/images/fake-stamp.png" id="stamp"
@@ -369,7 +372,7 @@
                                     </div>
                                     <div class="col">
                                         <button class="btn btn-rose btn-round" data-toggle="modal"
-                                            data-target="#elaModal" style="width:100%">
+                                            data-target="#elaModal" style="width:100%" id="ELA">
                                             <i class="fa fa-pinterest"></i>Error Level
                                         </button>
                                     </div>
@@ -544,7 +547,7 @@
             $(document).ready(function () {
                 $('#page-header').perfectScrollbar();
                 $('#metadata_body').perfectScrollbar();
-                // $('#ela_body').perfectScrollbar();
+                $('#ela_body').perfectScrollbar();
             });
         </script>
 
