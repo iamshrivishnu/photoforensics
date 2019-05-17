@@ -15,8 +15,7 @@
 
 
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="../assets/css/material-kit.min.css?v=2.1.1" rel="stylesheet" />
@@ -25,11 +24,10 @@
     <link href="../assets/demo/vertical-nav.css" rel="stylesheet" />
 
     <script type="text/javascript" src="../assets/js/core/jquery.min.js"></script>
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
+    <script type="text/javascript" src="../assets/js/ELA.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
     </script>
-
-
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/css/perfect-scrollbar.min.css" />
@@ -46,13 +44,19 @@
 
 
     <style>
-        #page-header{
+        
+        #page-header {
             padding: 5%
         }
 
-        #metadata_body{
-            height:60vh;
+        #metadata_body {
+            height: 60vh;
         }
+
+        /* #ela_body {
+            width: 100vh;
+            height: 100vh;
+        } */
 
         .stamp {
             height: 100px;
@@ -313,9 +317,9 @@
 </head>
 
 <body>
+            <div style="width:100%;height:100%" id="bg"></div>
+            <div id='img' style='visibility: collapse;width:0%;height:0%'><%= img%> </div>
 
-    <div style="width:100%;height:100%" id="bg"></div>
-    <div id='img' style='visibility: collapse;width:0%;height:0%'><%= img%> </div>
     <script>
         // var getTest = "machineLearning:"+document.getElementById('img').innerHTML; //var test is now assigned to getTest which will only work on browsers
         var getTest = "/machineLearning/" + document.getElementById('img').innerHTML;
@@ -333,11 +337,11 @@
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto">
 
-                    <div class="card card-blog" id="displayCard">
+                    <div class="card card-blog">
 
                         <div class="card-header card-header-image">
                             <a href="#pablo">
-                                <img class="img" src=<%= image%>>
+                                <img class="img" id="source_image" src=<%= image%> >
                             </a>
                         </div>
                         <img class="stamp" src="../assets/images/fake-stamp.png" id="stamp"
@@ -353,16 +357,26 @@
                             </p>
 
                         </div>
-                        <div class="card-footer ">
-                            <div class="row">
-                                <div class="col-6 col-md-4" style="padding-right:5%">
-                                    <button class="btn btn-info btn-round" data-toggle="modal"
-                                        data-target="#metadataModal">
-                                        <i class="material-icons">info_outline</i> Metadata
-                                    </button>
+                        <div class="card-footer">
+                            <div class="container">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-info btn-round" data-toggle="modal"
+                                            data-target="#metadataModal" style="width:100%">
+                                            <i class="material-icons">info_outline</i> Metadata
+                                        </button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-rose btn-round" data-toggle="modal"
+                                            data-target="#elaModal" style="width:100%">
+                                            <i class="fa fa-pinterest"></i>Error Level
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-6 col-md-4" style="padding-right:5%">
-                                    <button class="btn btn-success btn-round" onclick="performMachineLearning()">
+                                <div class="row">
+                                    <button class="btn btn-success btn-round" onclick="performMachineLearning()"
+                                        style="width:100%">
                                         <i class="material-icons">favorite</i> Analyze Using Machine Learning
                                     </button>
                                 </div>
@@ -373,6 +387,7 @@
             </div>
         </div>
 
+        <div id='img' style='visibility: collapse;width:0%;height:0%'><%= img%> </div>
 
         <!-- metadata modal -->
         <div class="modal fade" id="metadataModal" tabindex="-1" role="dialog">
@@ -436,6 +451,32 @@
 
 
 
+        <!-- metadata modal -->
+        <div class="modal fade" id="elaModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error Level In Your Image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="ela_body">
+                        <!-- <canvas id="compressedOverlay"></canvas> -->
+                        <canvas id="source" style="width:90%"></canvas><br>
+                        <canvas id="compressed" style="width:90%"></canvas>
+
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-info btn-round" data-dismiss="modal">Sounds good!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end metadata modal -->
+
+
+
 
 
         <script>
@@ -450,6 +491,7 @@
                 window.location.href = getTest;
             }
         </script>
+
 
         <!--   Core JS Files   -->
         <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
@@ -502,6 +544,7 @@
             $(document).ready(function () {
                 $('#page-header').perfectScrollbar();
                 $('#metadata_body').perfectScrollbar();
+                // $('#ela_body').perfectScrollbar();
             });
         </script>
 
@@ -518,6 +561,8 @@
                 document.getElementById("stamp").src = "../assets/images/unknown-stamp.png";
             }
         </script>
+
+
 </body>
 
 </html>

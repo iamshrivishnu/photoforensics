@@ -3,7 +3,7 @@ var multer = require('multer')
 var app = express();
 let fs = require("fs")
 
-var processJSON = require('./processMetaData');
+var processJSON = require('./assets/js/processMetaData');
 
 let slno = 0
 
