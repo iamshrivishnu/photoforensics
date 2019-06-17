@@ -5,23 +5,17 @@ let fs = require("fs")
 
 var processJSON = require('./assets/js/processMetaData');
 
-
-
-let slno = 0
-
-
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/assets", express.static(__dirname + '/assets'));
 app.use("/python", express.static(__dirname + '/python'));
 app.set('view engine', 'ejs');
-
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './uploads')
     },
     filename: function (req, file, callback) {
-        callback(null, 'img' + slno + '.jpg')
+        callback(null, 'image.jpg')
     }
 });
 
@@ -50,7 +44,13 @@ app.get('/meta/:image', function (req, res) {
                 });
             } else {
                 if (exifData === '') {
-                    res.end('<script>alert("Metadata not found. Continue with other tests...");</script>')
+                    res.render("result", {
+                        "result": "Metadata couldn\'t be extracted. Please try other tests...",
+                        "image": "../uploads/" + req.params.image,
+                        "metadata": "Metadata couldn\'t be extracted.",
+                        "statusOfImage": "UNKNOWN",
+                        "img": req.params.image
+                    });
                 } else {
                     res.render("result", processJSON(exifData, req.params.image));
                     res.end()
@@ -58,7 +58,7 @@ app.get('/meta/:image', function (req, res) {
             }
         });
     } catch (error) {
-        console.log('Un known Error: ' + error.message);
+        console.log('Unknown Error: ' + error.message);
     }
 });
 
@@ -68,32 +68,27 @@ app.get('/meta/:image', function (req, res) {
 app.get('/machineLearning/:image', function (req, res) {
 
     var spawn = require("child_process").spawn;
-    var process = spawn('python', ["./python/machinelearning.py", req.params.image]);
+    var process = spawn('python', ["./python/output.py", req.params.image]);
 
     let statusOfImage = ""
     var output = "";
     let accuracy = "";
 
     process.stdout.on('data', function (data) {
-        fs.readFile("./python/output.txt", "utf-8", (err, data) => {
-            if (err) {
-                console.log(err)
-            }
-            output = data;
-            if (output == "Orginal") {
-                statusOfImage = "REAL";
-            } else {
-                statusOfImage = "FAKE";
-            }
+        output = data.toString('utf8');
+        if (output == "Original") {
+            statusOfImage = "REAL";
+        } else if (output == "Modified"){
+            statusOfImage = "FAKE";
+        }else {
+            statusOfImage = "FAKE";
+        }
 
-            accuracy = "95%";
-            res.render("resultMachineLearning", {
-                "result": output,
-                "image": "/uploads/" + req.params.image,
-                "statusOfImage": statusOfImage,
-                "accuracy": accuracy
-            });
-        })
+        res.render("resultMachineLearning", {
+            "result_ml": statusOfImage,
+            "image": "/uploads/" + req.params.image,
+            "statusOfImage": statusOfImage
+        });
     })
 
 });
@@ -104,7 +99,7 @@ app.post('/upload', function (req, res) {
         if (err) {
             return res.end("Error uploading file.")
         }
-        res.redirect('/meta/' + "img" + slno + ".jpg")
+        res.redirect('/meta/' + "image.jpg")
     });
 });
 

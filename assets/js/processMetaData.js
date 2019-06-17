@@ -1,7 +1,6 @@
 function checkForSoftware(software) {
     var editingSoftwares = [
         'Adobe',
-        'Windows',
         'Gimp',
         'Corel',
         'Pixlr',
@@ -33,14 +32,19 @@ function checkForSoftware(software) {
         'Photo'
     ];
 
-    var softwares = software.split(" ");
-    for (let i = 0; i < softwares.length; i++) { // Get all the words in the processing softwares
-        for (let j = 0; j < editingSoftwares.length; j++) {
-            if (editingSoftwares[j].toLowerCase() == softwares[i].toLowerCase()) { // Compare each and evey word of processing software with existing list of editing softwares
-                return true;
+    try{
+        var softwares = software.split(" ");
+        for (let i = 0; i < softwares.length; i++) { // Get all the words in the processing softwares
+            for (let j = 0; j < editingSoftwares.length; j++) {
+                if (editingSoftwares[j].toLowerCase() == softwares[i].toLowerCase()) { // Compare each and evey word of processing software with existing list of editing softwares
+                    return true;
+                }
             }
         }
+    }catch(err){
+        return true;
     }
+   
     return false;
 }
 
@@ -78,7 +82,7 @@ function processJSON(jsonData, image) {
         result = "The image was not modified";
     }
 
-    var table_body = '<table class="table" style="display: block;overflow: auto;"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>';
+    var table_body = '<table class="table" style="display: block;overflow: auto;height: 60vh;width: 100vh;"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>';
     for (x in jsonData) {
         var obj = jsonData[x];
 

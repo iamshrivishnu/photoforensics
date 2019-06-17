@@ -22,7 +22,10 @@
     <link href="../assets/demo/demo.css" rel="stylesheet" />
     <link href="../assets/demo/vertical-nav.css" rel="stylesheet" />
 
-    <script src="../assets/js/core/jquery.min.js"></script>
+    <!-- <script src="../assets/js/core/jquery.min.js"></script> -->
+
+    <script src="/assets/js/core/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+
 
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js">
@@ -115,15 +118,19 @@
                         <div class="card-body ">
                             <h6 class="card-category text-success" id="statusOfImage"><%= statusOfImage%></h6>
                             <h4 class="card-title">
-                                <h4><%= result%></h4>
+                                <h4><%= statusOfImage%></h4>
                             </h4>
                             <p class="card-description">
-                                Our system found that by analyzing your image in machine learning system.
+                                Results are based on the image that is fed to the system.
                             </p>
+                            <!-- <p><%= result_ml%></p> -->
+                            
 
                         </div>
                         <div class="card-footer ">
-
+                            <button class="btn btn-primary btn-round" onclick="window.location.href = '/'">
+                                <i class="material-icons">home</i> Back To Home
+                              </button>
                         </div>
                     </div>
                 </div>
